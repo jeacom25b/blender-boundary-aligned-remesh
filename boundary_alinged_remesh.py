@@ -177,11 +177,11 @@ def draw(self, context):
 
 def register():
     bpy.utils.register_class(Remesher)
-    bpy.types.VIEW3D_MT_object_specials.append(draw)
+    bpy.types.VIEW3D_MT_object_context_menu.append(draw)
 
 def unregister():
     bpy.utils.unregister_class(Remesher)
-    bpy.types.VIEW3D_MT_object_specials.remove(draw)
+    bpy.types.VIEW3D_MT_object_context_menu.remove(draw)
 
 if __name__ == "__main__":
     register()
