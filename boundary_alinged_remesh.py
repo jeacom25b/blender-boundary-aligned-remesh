@@ -24,7 +24,12 @@ class BoundaryAlignedRemesher:
 
     def __init__(self, obj):
         self.obj = obj
-        self.edit_mode = obj.mode == 'EDIT'
+        mode = obj.mode
+        self.edit_mode = mode == 'EDIT'
+
+        # hack to update the mesh data
+        bpy.ops.object.mode_set(mode='OBJECT')
+        bpy.ops.object.mode_set(mode=mode)
 
         self.bm = bmesh.new()
 
@@ -232,6 +237,7 @@ class Remesher(bpy.types.Operator):
         size = max(d / s for d, s in zip(obj.dimensions, obj.scale))
         edge_length = size / self.resolition
 
+        last_mode = obj.mode
         remesher = BoundaryAlignedRemesher(obj)
         remesher.remesh(edge_length, self.iterations, self.quads)
         context.area.tag_redraw()
